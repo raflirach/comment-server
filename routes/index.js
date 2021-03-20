@@ -1,4 +1,5 @@
 const CommentController = require('../controllers/comment')
+const validation = require('../middlewares/validation')
 
 const router = require('express').Router() 
 
@@ -9,7 +10,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/comments', CommentController.showAll)
-router.post('/comments', CommentController.create)
-router.put('/comments/:id', CommentController.reply)
+router.post('/comments', validation, CommentController.create)
+router.put('/comments/:id', validation, CommentController.reply)
 
 module.exports = router
