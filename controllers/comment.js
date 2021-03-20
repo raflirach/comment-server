@@ -14,12 +14,12 @@ class CommentController {
   static async create(req, res, next) {
     try {
       const { name, message } = req.body
-      const comment = await Comment.create({ 
+      const input = { 
         name,
         message,
         createdAt: new Date()
-      })
-      console.log(comment);
+      }
+      const comment = await Comment.create(input)
       return res.status(201).json(comment.ops[0])
     } catch (err) {
       next(err)
@@ -31,13 +31,17 @@ class CommentController {
       const { id } = req.params
       const _id = ObjectID(id)
       const { name, message } = req.body
-      const comment = await Comment.reply(_id, { 
-        name, 
+      const input = { 
+        name,
         message,
-        createdAt: new Date() 
+        createdAt: new Date()
+      }
+      const comment = await Comment.reply(_id, input)
+      return res.status(200).json({
+        status: 'success',
+        message: 'reply created successfully',
+        data: input
       })
-      console.log(comment);
-      res.status(200).json('ok')
     } catch (err) {
       next(err)
     }
